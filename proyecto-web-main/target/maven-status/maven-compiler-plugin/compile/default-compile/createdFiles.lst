@@ -1,0 +1,16 @@
+org\proyecto\model\Persona.class
+org\proyecto\model\Proyecto.class
+org\proyecto\JAXRSConfiguration.class
+org\proyecto\managedbeans\PersonaMB.class
+org\proyecto\managedbeans\PreguntaMB.class
+org\proyecto\util\DtoConverter.class
+org\proyecto\managedbeans\ProyectoMB.class
+org\proyecto\model\Pregunta.class
+org\proyecto\config\Constantes.class
+org\proyecto\managedbeans\AreaMB.class
+org\proyecto\services\ejb\AppEjb.class
+org\proyecto\model\Proceso.class
+org\proyecto\model\PreguntaRespuesta.class
+org\proyecto\services\intefaces\AppServices.class
+org\proyecto\managedbeans\ProcesoMB.class
+org\proyecto\model\Area.class
