@@ -13,6 +13,4 @@ public interface MarcacionMapper {
     Marcacion toEntity(MarcacionDto dto);
     List<MarcacionDto> toDto(List<Marcacion> entities);
 
-
-
 }
