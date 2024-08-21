@@ -51,3 +51,26 @@ INSERT INTO detalle_factura (id_factura, id_producto, cantidad, precio_unitario,
 (3, 4, 2, 200.00, 400.00),
 (3, 5, 1, 80.00, 80.00);
 
+select * from factura;
+select * from detalle_factura;
+  
+
+SELECT 
+    f.id_factura,
+    f.fecha,
+    f.total,
+    c.nombre AS nombre_cliente,
+    df.cantidad,
+    df.precio_unitario,
+    df.subtotal,
+    p.nombre AS nombre_producto
+FROM 
+    factura f
+JOIN 
+    cliente c ON f.id_cliente = c.id_cliente
+JOIN 
+    detalle_factura df ON f.id_factura = df.id_factura
+JOIN 
+    producto p ON df.id_producto = p.id_producto
+WHERE 
+    f.id_factura = 1;

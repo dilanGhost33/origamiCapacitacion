@@ -3,13 +3,18 @@ package org.capacitacion.services;
 import org.capacitacion.dto.DetalleFacturaDto;
 import org.capacitacion.dto.FacturaDto;
 import org.capacitacion.dto.ProductoDto;
+import org.capacitacion.entidad.Cliente;
 import org.capacitacion.entidad.DetalleFactura;
 import org.capacitacion.entidad.Factura;
 import org.capacitacion.entidad.Producto;
 import org.capacitacion.mappers.ClienteMapper;
 import org.capacitacion.mappers.FacturaMapper;
+import org.capacitacion.respository.ClienteRepository;
 import org.capacitacion.respository.DetalleFacturaRepository;
 import org.capacitacion.respository.FacturaRepository;
+import org.capacitacion.respository.ProductoRepository;
+import org.capacitacion.vo.DetalleFacturaVo;
+import org.capacitacion.vo.FacturaVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +27,10 @@ import java.util.List;
 public class FacturaService {
     @Autowired
     private FacturaRepository facturaRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
+    @Autowired
+    private ProductoRepository productoRepository;
     @Autowired
     private DetalleFacturaRepository detalleFacturaRepository;
     @Autowired
@@ -74,30 +83,37 @@ public class FacturaService {
          return result;
      }
 //
-    public FacturaDto guardarFactura(FacturaDto facturaDto){
-        Factura factura = facturaMapper.toEntity(facturaDto) ;
+    public Object guardarFactura(FacturaVo facturaVo){
+        Factura factura = new Factura();
+        BeanUtils.copyProperties(facturaVo,factura);
+
+        if (facturaVo.getIdCliente() > 0) {
+            Cliente cliente = clienteRepository.findById(facturaVo.getIdCliente())
+                    .orElseThrow(() -> new RuntimeException("Cliente no encontrado con id: "  ));
+            factura.setCliente(cliente);
+        }
         if (factura.getFecha() == null) {
             factura.setFecha(new Date());
         }
         facturaRepository.save(factura);
-        if (factura.getDetalleFacturas() != null && !factura.getDetalleFacturas().isEmpty()) {
-           createFacturaDeatils(factura, facturaDto.getDetalles());
+        if (facturaVo.getDetalles() != null && !facturaVo.getDetalles().isEmpty()) {
+           createFacturaDeatils(factura, facturaVo.getDetalles());
        }
         return mapEntitytoDetailDto(factura);
    }
 
-    private void createFacturaDeatils(Factura factura, List<DetalleFacturaDto> deatils) {
-        for (DetalleFacturaDto detail: deatils) {
+    private void createFacturaDeatils(Factura factura, List<DetalleFacturaVo> deatils) {
+        for (DetalleFacturaVo detail: deatils) {
             try {
                 DetalleFactura entity = new DetalleFactura();
                 entity.setFactura(factura);
-                if (detail.getProducto().getStock() >0) {
-                    entity.setProducto(new Producto(detail.getProducto().getIdProducto()));
-                    entity.setCantidad(detail.getCantidad());
-                    entity.setSubtotal(detail.getCantidad() * detail.getProducto().getPrecio());
-                }else {
-                    throw new IllegalArgumentException("No hay stock del producto");
-                }
+                Producto producto = productoRepository.findById(detail.getIdProducto())
+                        .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + detail.getIdProducto()));
+
+                entity.setCantidad(detail.getCantidad());
+                entity.setProducto(producto);
+                entity.setPrecioUnitario(producto.getPrecio());
+                entity.setSubtotal(detail.getCantidad() * producto.getPrecio());
                 detalleFacturaRepository.save(entity);
             }catch (Exception e){
                 System.err.println("Error creating workday detail: " + e.getMessage());
