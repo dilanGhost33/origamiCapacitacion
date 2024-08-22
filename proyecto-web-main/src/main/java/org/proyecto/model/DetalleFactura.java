@@ -72,6 +72,11 @@ public class DetalleFactura implements Serializable{
         this.subtotal = subtotal;
     }
 
+    @Override
+    public String toString() {
+        return "DetalleFactura{" + "idDetalle=" + idDetalle + ", idFactura=" + idFactura + ", producto=" + producto + ", cantidad=" + cantidad + ", precioUnitario=" + precioUnitario + ", subtotal=" + subtotal + '}';
+    }
+
    
     
     

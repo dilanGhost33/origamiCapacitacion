@@ -64,6 +64,11 @@ public class Factura implements Serializable{
     public void setDetalles(List<DetalleFactura> detalles) {
         this.detalles = detalles;
     }
+
+    @Override
+    public String toString() {
+        return "Factura{" + "idFactura=" + idFactura + ", cliente=" + cliente + ", fecha=" + fecha + ", total=" + total + ", detalles=" + detalles + '}';
+    }
     
     
     

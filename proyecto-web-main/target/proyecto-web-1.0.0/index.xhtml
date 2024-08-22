@@ -10,34 +10,127 @@
     </h:head>
     <h:body>
         <center>
-            <h1 class="mt-0">Facturas</h1>
+            <h1 class="mt-0">Evaluacion</h1>
         </center>
         <p:commandButton value="Clientes" oncomplete="PF('dlgClientes').show()" 
                              style="float: right" icon="pi pi-plus" update="frmFacturas"/>
         <p:spacer width="30" />
         <p:commandButton value="Productos " oncomplete="PF('dlgProductos').show()" 
                              style="float: right" icon="pi pi-plus" update="frmFacturas"/>
-        <p:commandButton value="Facturas " oncomplete="PF('dlgFacturas').show()" 
+        <p:commandButton value="Ver Facturas " oncomplete="PF('dlgFacturas').show()" 
                              style="float: right;  " icon="pi pi-plus" update="frmFacturas"/>
         <br></br>
         <br></br>
         <br></br>
     <p:card style="width: 99%;margin-bottom: 2em ">
         <f:facet name="title">
-            Simple Card
+            Factura
         </f:facet>
+         <h:form id="frmFactura">
+            <p:panelGrid columns="2">
+                <h:panelGroup>
+                    <p:outputLabel value="ID"/>
+                </h:panelGroup> 
+                <h:panelGroup>
+                    <p:outputLabel value="--"/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:outputLabel value="Fecha "/>
+                    <p:outputLabel value="#{facturaMB.factura.fecha}">
+                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </p:outputLabel>
+                </h:panelGroup> 
+                <h:panelGroup>
+                    <p:outputLabel value="-"/>
+                </h:panelGroup> 
+                    <h:panelGroup>
+                    <p:outputLabel value="Cliente"/> <br/>
+                    <p:selectOneMenu value="#{facturaMB.factura.cliente}" style="width: 100%" converter="#{clienteConverter}">
+                        <f:selectItem itemLabel="Seleccione un cliente" itemValue="#{null}" />
+                        <f:selectItems value="#{facturaMB.clientes}" 
+                                       var="cliente" itemLabel="#{cliente.nombre}" itemValue="#{cliente}" />
+                        <p:ajax event="change" update="infoPanel" listener="#{facturaMB.actualizarInfoCliente}" />                        
+                    </p:selectOneMenu>
+                </h:panelGroup> 
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
-        quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
+                <h:panelGroup id="infoPanel">
+                    <p:outputLabel value="Info"/> <br/>
+                    <h:panelGroup rendered="#{facturaMB.factura.cliente != null}">
+                        <p:outputLabel value="#{facturaMB.factura.cliente.nombre}"/> <br/>
+                        <p:outputLabel value="#{facturaMB.factura.cliente.telefono}"/> <br/>
+                        <p:outputLabel value="#{facturaMB.factura.cliente.direccion}"/> <br/>
+                        <p:outputLabel value="#{facturaMB.factura.cliente.email}"/> <br/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{facturaMB.factura.cliente == null}">
+                        <p:outputLabel value="No se ha seleccionado ningún cliente." />
+                    </h:panelGroup>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:outputLabel value="Productos"/> <br/>
+                    <p:selectOneMenu value="#{facturaMB.productoSeleccionado}" style="width: 100%" converter="#{productoConverter}">
+                        <f:selectItem itemLabel="Seleccione un producto" itemValue="#{null}" />
+                        <f:selectItems value="#{facturaMB.productosDisponibles}" 
+                                       var="producto" itemLabel="#{producto.nombre}, $#{producto.precio}" itemValue="#{producto}" />
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <br/>
+                    <center>
+                        <p:outputLabel value="Cantidad"/>
+                        <p:inputNumber id="cantidad" value="#{facturaMB.cantidadSeleccionada}" minValue="1" decimalPlaces="0" />
+                        <p:spacer width="30" />
+                        <p:commandButton id="agregar" value="Agregar"
+                                         action="#{facturaMB.agregarDetalle()}"
+                                         update=":frmFactura:totalpanel :frmFactura:detallesPanel :frmFactura:cantidad"
+                                         style="float: center;" icon="pi pi-save" />
+                    </center>
+                </h:panelGroup>
 
+            </p:panelGrid>
+             <p:outputPanel id="detallesPanel">
+                      <p:dataTable id="dtProductosSeleccionados" value="#{facturaMB.detalles}" var="detalle">
+                        <p:column headerText="Nombre">
+                            #{detalle.producto.nombre}
+                        </p:column>
+                        <p:column headerText="Cantidad">
+                            #{detalle.cantidad}
+                        </p:column>
+                        <p:column headerText="Precio">
+                            #{detalle.precioUnitario}
+                        </p:column>
+                        <p:column headerText="Subtotal">
+                            #{detalle.subtotal}
+                        </p:column>
+                    </p:dataTable>
+                 </p:outputPanel>
+                <br></br>
+              <p:outputPanel id="totalpanel" style="float: right">
+                  <p:outputLabel value="Total " style="font-size: 24px; font-weight: bold;">
+                      #{facturaMB.total} 
+                      </p:outputLabel>
+                  <br></br>
+                  <br></br>
+               <p:commandButton value="Guardar Factura"
+                                action="#{facturaMB.guardarFactura()}"
+                                styleClass="rounded-button ui-button-success"
+                                style="float: right" icon="pi pi-save" 
+                                oncomplete="handleSaveComplete(xhr, status, args)"
+                                update="frmFactura"/>
+              </p:outputPanel>
+                   <br></br>
+                   <br></br>
+                   <br></br>
+                   <br></br>
+                   <br></br>
+                   
+          </h:form>
     </p:card>
 
             <br></br>
  <p:dialog id="dlgFacturas" widgetVar="dlgFacturas" header="Facturas"
         modal="true" width="80%" showEffect="fade" minimizable="true" maximizable="true">
          <h:form id="frmFacturas">
-                <br></br>
-                <br></br>
+                
             <p:dataTable id="dtFacturas" value="#{facturaMB.facturas}" var="p" paginator="true" rows="5">
                 <p:column headerText="ID" style="width: 20px;">
                     #{p.idFactura}
