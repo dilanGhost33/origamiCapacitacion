@@ -6,166 +6,198 @@
       xmlns:p="http://primefaces.org/ui">
     
     <h:head>
-        <title>Ingreso de proyecto</title>
+        <title>Factura</title>
     </h:head>
     <h:body>
         <center>
-            <p:outputLabel value="Ingreso de proyecto" style="font-weight: bolder; font-size: 14px"/>
+            <h1 class="mt-0">Facturas</h1>
         </center>
-        <p:commandButton value="Registrar pregunta" oncomplete="PF('dlgPregunta').show()" 
-                             style="float: right" icon="pi pi-plus" update="frmPregunta"/>
-        <p:commandButton value="Crear Encuesta" actionListener="#{preguntaMB.crearEncuesta()}" 
-                             style="float: right; background-color: red" icon="pi pi-plus" update="frmPregunta"/>
+        <p:commandButton value="Clientes" oncomplete="PF('dlgClientes').show()" 
+                             style="float: right" icon="pi pi-plus" update="frmFacturas"/>
+        <p:spacer width="30" />
+        <p:commandButton value="Productos " oncomplete="PF('dlgProductos').show()" 
+                             style="float: right" icon="pi pi-plus" update="frmFacturas"/>
+        <p:commandButton value="Facturas " oncomplete="PF('dlgFacturas').show()" 
+                             style="float: right;  " icon="pi pi-plus" update="frmFacturas"/>
         <br></br>
         <br></br>
-    </h:body>
-        <h:form id="frmPreguntas">
+        <br></br>
+    <p:card style="width: 99%;margin-bottom: 2em ">
+        <f:facet name="title">
+            Simple Card
+        </f:facet>
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+        quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
+
+    </p:card>
+
+            <br></br>
+ <p:dialog id="dlgFacturas" widgetVar="dlgFacturas" header="Facturas"
+        modal="true" width="80%" showEffect="fade" minimizable="true" maximizable="true">
+         <h:form id="frmFacturas">
                 <br></br>
                 <br></br>
-            <p:dataTable id="dtPreguntas" value="#{preguntaMB.preguntas}" var="p">
-                <p:column headerText="Estado">
-                    #{p.estado}
+            <p:dataTable id="dtFacturas" value="#{facturaMB.facturas}" var="p" paginator="true" rows="5">
+                <p:column headerText="ID" style="width: 20px;">
+                    #{p.idFactura}
                 </p:column>
-                <p:column headerText="Tipo">
-                    #{p.tipo}
+                <p:column headerText="Cliente">
+                    #{p.cliente.nombre}
                 </p:column>
-                <p:column headerText="Requerida">
-                    <center>
-                    <p:outputLabel value="SI" rendered="#{p.requerida}" />
-                    <p:outputLabel value="NO" rendered="#{!p.requerida}" />
+                <p:column headerText="Fecha">
+                    <h:outputText value="#{p.fecha}" style="width: 50px;">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Total">
+                    #{p.total}
+                </p:column>
+                <p:column headerText="Detalle" style="width: 450px;">
+                    <p:dataTable id="dtFP" value="#{p.detalles}" var="a" >
+                        <p:column headerText="Producto">
+                         #{a.producto.nombre}
+                         </p:column>
+                        <p:column headerText="Cantidad">
+                         #{a.cantidad}
+                         </p:column>
+                        <p:column headerText="Subtotal">
+                         #{a.subtotal}
+                         </p:column>
+                        </p:dataTable>   
+                </p:column>
+            </p:dataTable>      
+    </h:form>
+    </p:dialog>
+  </h:body>
+    
+      <p:dialog id="dlgClientes" widgetVar="dlgClientes" header="Clientes"
+        modal="true" width="80%" showEffect="fade" minimizable="true" maximizable="true">
+        <h:form id="frmCliente">
+            <p:panelGrid columns="4">
+                <h:panelGroup>
+                    <p:outputLabel value="Nombre" style="float: left"/> 
+                    <p:inputText value="#{facturaMB.cliente.nombre}" style="width: 100%"/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:outputLabel value="Dirección" style="float: left"/> 
+                    <p:inputText value="#{facturaMB.cliente.direccion}" style="width: 90%"/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:outputLabel value="Teléfono" style="float: left"/> 
+                    <p:inputText value="#{facturaMB.cliente.telefono}" style="width: 90%"/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:outputLabel value="Correo" style="float: left"/> 
+                    <p:inputText value="#{facturaMB.cliente.email}" style="width: 100%"/>
+                </h:panelGroup>
+                <f:facet name='footer'>
+                    <center> 
+                        <p:commandButton value="Registrar" styleClass="rounded-button"
+                                         style="background-color: green"
+                                         actionListener="#{facturaMB.guardarCliente()}"
+                                         update="dlgClientes,frmClientes,frmCliente"
+                                         oncomplete="if (!args.validationFailed) { PF('dlgClientes').show(); }"
+                                         icon="pi pi-save"/>
                     </center>
+                </f:facet >
+                </p:panelGrid>
+        </h:form>
+        
+        <h:form id="frmClientes">
+            <p:dataTable id="dtClientes" value="#{facturaMB.clientes}" var="r"
+                         paginator="true" rows="3">
+                <p:column headerText="Nombre">
+                    #{r.nombre}
                 </p:column>
-                <p:column headerText="Pregunta">
-                    #{p.pregunta}
+                <p:column headerText="Dirección">
+                    #{r.direccion}
+                </p:column>
+                <p:column headerText="Telefono">
+                    #{r.telefono}
+                </p:column>
+                <p:column headerText="Correo">
+                    #{r.email}
                 </p:column>
                 <p:column headerText="**">
                     <p:commandButton value="Editar" icon="pi pi-pencil"
                                      styleClass="rounded-button"
-                                     actionListener="#{preguntaMB.editarPregunta(p)}"
-                                     oncomplete="PF('dlgPregunta').show()"
-                                     update="frmPregunta"/>
-                    <p:spacer width="5" />
-                    <p:commandButton value="Respuestas" icon="pi pi-plus"
-                                     styleClass="rounded-button"
-                                     actionListener="#{preguntaMB.cargarRespuestas(p)}"
-                                     oncomplete="PF('dlgRespuesta').show()"
-                                     update="frmRespuestas, frmRespuesta"/>
+                                     actionListener="#{facturaMB.editarCliente(r)}"
+                                     oncomplete="PF('dlgClientes').show()"
+                                     update="dlgClientes,frmClientes,frmCliente"/>
+                    <p:commandButton value="Eliminar" icon="pi pi-trash"
+                                     styleClass="rounded-button ui-button-danger"
+                                     actionListener="#{facturaMB.eliminarCliente(r)}"
+                                     oncomplete="PF('dlgClientes').show()"
+                                     update="dlgClientes,frmClientes,frmCliente"/>
                 </p:column>
-                
-
-            </p:dataTable>
-                
-            
-        </h:form>
-            <br></br>
-
-    <p:dialog id="dlgPregunta" widgetVar="dlgPregunta" header="Registro de preguntas "
-        modal="true" width="600">
-        <h:form id="frmPregunta">
-            
-            <p:panelGrid columns="2">
-                <f:facet name='header'>
-                     <h:panelGroup>
-                    <p:outputLabel value="Pregunta" style="float: left"/> 
-                    <p:inputTextarea rows="5" value="#{preguntaMB.pregunta.pregunta}" style="width: 100%"/>
-                
-                </h:panelGroup> 
-                </f:facet >
-               
-                
+                </p:dataTable>
+            </h:form>
+    </p:dialog>
+    
+    <p:dialog id="dlgProductos" widgetVar="dlgProductos" header="Productos"
+        modal="true" width="80%" showEffect="fade" minimizable="true" maximizable="true">
+        <h:form id="frmProducto">
+            <p:panelGrid columns="4">
                 <h:panelGroup>
-                    <p:outputLabel value="Tipo de pregunta"/> <br></br>
-                    <p:selectOneMenu value="#{preguntaMB.pregunta.tipo}" style="width: 100%">
-                        <f:selectItem itemLabel="Pregunta" itemValue="Pregunta"/>
-                        <f:selectItem itemLabel="Opcion Multiple" itemValue="Opcion"/>
-                        <f:selectItem itemLabel="Categorias" itemValue="Categorias"/>
-                    </p:selectOneMenu>
-
-                
-                </h:panelGroup> 
-                <h:panelGroup>
-                    <p:outputLabel value="Tipo de pregunta"/> <br></br>
-                    <p:selectOneMenu value="#{preguntaMB.pregunta.estado}" style="width: 100%">
-                        <f:selectItem itemLabel="Activo" itemValue="Activo"/>
-                        <f:selectItem itemLabel="Inactivo" itemValue="Inactivo"/>
-                    </p:selectOneMenu>
-
-                
+                    <p:outputLabel value="Nombre" style="float: left"/> 
+                    <p:inputText value="#{facturaMB.producto.nombre}" style="width: 100%"/>
                 </h:panelGroup>
                 <h:panelGroup>
-                    <p:outputLabel value="Es obligatorio"/> <br></br>
-                    <p:selectBooleanCheckbox value="#{preguntaMB.pregunta.requerida}" style="width: 100%" />
-                
+                    <p:outputLabel value="Precio" style="float: left"/> 
+                    <p:inputText value="#{facturaMB.producto.precio}" style="width: 90%"/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:outputLabel value="Stock" style="float: left"/> 
+                    <p:inputText value="#{facturaMB.producto.stock}" style="width: 90%"/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:outputLabel value="Descripción" style="float: left"/> 
+                    <p:inputText value="#{facturaMB.producto.descripcion}" style="width: 100%"/>
                 </h:panelGroup>
                 <f:facet name='footer'>
                     <center> 
-                        <p:commandButton value="Guardar" styleClass="rounded-button"
+                        <p:commandButton value="Registrar" styleClass="rounded-button"
                                          style="background-color: green"
-                                         actionListener="#{preguntaMB.guardarPregunta()}"
-                                         oncomplete="PF('dlgPregunta').hide()" 
-                                         update="frmPreguntas"
+                                         actionListener="#{facturaMB.guardarProducto()}"
+                                         update="dlgProductos,frmProductos,frmProducto"
+                                         oncomplete="if (!args.validationFailed) { PF('dlgProductos').show(); }"
                                          icon="pi pi-save"/>
-                        <p:spacer width="20" />
-                       <p:commandButton value="Cancelar" styleClass="rounded-button"
-                                        oncomplete="PF('dlgPregunta').hide()" 
-                                        style="background-color: red"
-                                         icon="pi pi-times"/>
                     </center>
                     
                 </f:facet >
-
-            </p:panelGrid>
+                </p:panelGrid>
         </h:form>
-                  
-    </p:dialog>
-  
-
-<p:dialog id="dlgRespuesta" widgetVar="dlgRespuesta" header="Respuestas "
-        modal="true" width="80%">
-    <h:form id="frmRespuesta">
-        <p:panelGrid columns="3">
-            <f:facet name='header'>
-                     <h:panelGroup>
-                    <p:outputLabel value="Pregunta '" style="float: left"/>
-                    <p:outputLabel value=" #{preguntaMB.pregunta.pregunta}'" style="float: left"/>  
-                </h:panelGroup> 
-                </f:facet >
-                
-            <h:panelGroup>
-                    <p:outputLabel value="Respuesta" style="float: left"/> 
-                    <p:inputText value="#{preguntaMB.respuesta.respuesta}" style="width: 100%"/>
-            </h:panelGroup>
-                
-            <h:panelGroup>
-                    <p:outputLabel value="Usuario" style="float: left"/> 
-                    <p:inputText value="#{preguntaMB.respuesta.usuarioRegistro}" style="width: 100%"/>
-            </h:panelGroup> 
-            <h:panelGroup>
-                   <p:commandButton value="Registrar" styleClass="rounded-button"
-                                         style="background-color: green"
-                                         actionListener="#{preguntaMB.guardarRespuesta()}"
-                                         update="dlgRespuesta, frmRespuestas,frmRespuesta"
-                                         oncomplete="if (!args.validationFailed) { PF('dlgRespuesta').show(); }"
-                                         icon="pi pi-save"/>
-            </h:panelGroup> 
-        </p:panelGrid>
-    </h:form>
-    
-        <h:form id="frmRespuestas">
-               <br></br>
-            <p:dataTable id="dtRespuestas" value="#{preguntaMB.respuestas}" var="r">
-                <p:column headerText="Respuesta">
-                    #{r.respuesta}
+        
+        <h:form id="frmProductos">
+            <p:dataTable id="dtProductos" value="#{facturaMB.productos}" var="r"
+                         paginator="true" rows="6">
+                <p:column headerText="Nombre">
+                    #{r.nombre}
                 </p:column>
-                <p:column headerText="Calificacion">
-                    #{r.calificacion}
+                <p:column headerText="Descripción">
+                    #{r.descripcion}
                 </p:column>
-                <p:column headerText="Usuario">
-                    #{r.usuarioRegistro}
+                <p:column headerText="Precio">
+                    #{r.precio}
+                </p:column>
+                <p:column headerText="Stock">
+                    #{r.stock}
+                </p:column>
+                <p:column headerText="**">
+                    <p:commandButton value="Editar" icon="pi pi-pencil"
+                                     styleClass="rounded-button"
+                                     actionListener="#{facturaMB.editarProducto(r)}"
+                                     oncomplete="PF('dlgProductos').show()"
+                                     update="dlgProductos,frmProductos,frmProducto"/>
+                    <p:commandButton value="Eliminar" icon="pi pi-trash"
+                                     styleClass="rounded-button ui-button-danger"
+                                     actionListener="#{facturaMB.eliminarProducto(r)}"
+                                     oncomplete="PF('dlgProductos').show()"
+                                     update="dlgProductos,frmProductos,frmProducto"/>
                 </p:column>
                 </p:dataTable>
-        </h:form>
-                  
+            </h:form>
     </p:dialog>
 
 

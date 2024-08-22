@@ -1,6 +1,7 @@
 package org.capacitacion.services;
 
 import org.capacitacion.dto.DetalleFacturaDto;
+import org.capacitacion.dto.FacturaConDetallesDto;
 import org.capacitacion.dto.FacturaDto;
 import org.capacitacion.dto.ProductoDto;
 import org.capacitacion.entidad.Cliente;

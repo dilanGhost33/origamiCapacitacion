@@ -1,10 +1,14 @@
 D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\model\Proyecto.java
+D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\model\Cliente.java
 D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\services\ejb\AppEjb.java
 D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\model\Proceso.java
 D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\managedbeans\ProyectoMB.java
+D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\managedbeans\FacturaMB.java
+D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\model\DetalleFactura.java
 D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\config\Constantes.java
 D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\managedbeans\ProcesoMB.java
 D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\model\Pregunta.java
+D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\model\Factura.java
 D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\model\Persona.java
 D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\managedbeans\AreaMB.java
 D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\managedbeans\PreguntaMB.java
@@ -12,5 +16,6 @@ D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\JAXRSConf
 D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\managedbeans\PersonaMB.java
 D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\model\Area.java
 D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\util\DtoConverter.java
+D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\model\Producto.java
 D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\services\intefaces\AppServices.java
 D:\trabajo\capacitacion\2\proyecto-web-main\src\main\java\org\proyecto\model\PreguntaRespuesta.java

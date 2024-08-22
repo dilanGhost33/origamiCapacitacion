@@ -75,7 +75,7 @@ public class PreguntaMB implements Serializable{
     public void crearEncuesta(){
         
         String respuesta= (String) appServices.methodPOST(Constantes.appUrl+"crearencuesta", String.class);
-        System.out.println("Respuesta guardada: " );
+        System.out.println("Respuesta guardada: "+respuesta );
     }
 
      

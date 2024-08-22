@@ -23,5 +23,6 @@ public interface AppServices {
     public Object methodPOST(String url, Class clazz);
 
     public List methodListPOST(Object data, String url, Class clazz);
-
+    
+    public Object methodDELETE(String url, Class clazz);
 }

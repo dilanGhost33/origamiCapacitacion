@@ -12,7 +12,6 @@ public class FacturaConDetallesDto implements Serializable {
     private Long idCliente;
     private Date fecha;
     private double total;
-    private List<DetalleFactura> detalles;
 
     public Long getIdFactura() {
         return idFactura;
@@ -46,11 +45,5 @@ public class FacturaConDetallesDto implements Serializable {
         this.total = total;
     }
 
-    public List<DetalleFactura> getDetalles() {
-        return detalles;
-    }
 
-    public void setDetalles(List<DetalleFactura> detalles) {
-        this.detalles = detalles;
-    }
 }

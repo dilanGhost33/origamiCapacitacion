@@ -4,11 +4,16 @@ org\proyecto\JAXRSConfiguration.class
 org\proyecto\managedbeans\PersonaMB.class
 org\proyecto\managedbeans\PreguntaMB.class
 org\proyecto\util\DtoConverter.class
+org\proyecto\model\Producto.class
 org\proyecto\managedbeans\ProyectoMB.class
 org\proyecto\model\Pregunta.class
+org\proyecto\model\DetalleFactura.class
 org\proyecto\config\Constantes.class
 org\proyecto\managedbeans\AreaMB.class
+org\proyecto\managedbeans\FacturaMB.class
+org\proyecto\model\Factura.class
 org\proyecto\services\ejb\AppEjb.class
+org\proyecto\model\Cliente.class
 org\proyecto\model\Proceso.class
 org\proyecto\model\PreguntaRespuesta.class
 org\proyecto\services\intefaces\AppServices.class

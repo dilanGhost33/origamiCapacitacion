@@ -1,5 +1,6 @@
 package org.capacitacion.mappers;
 
+import org.capacitacion.dto.FacturaConDetallesDto;
 import org.capacitacion.dto.FacturaDto;
 import org.capacitacion.entidad.Factura;
 import org.mapstruct.Mapper;
@@ -13,4 +14,7 @@ public interface FacturaMapper {
     FacturaDto toDto(Factura entity);
     Factura toEntity(FacturaDto dto);
     List<FacturaDto> toDto(List<Factura> entities);
+
+
+
 }

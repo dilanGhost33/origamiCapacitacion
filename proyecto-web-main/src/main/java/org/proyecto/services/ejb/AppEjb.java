@@ -17,6 +17,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -116,5 +118,31 @@ public class AppEjb implements AppServices {
     public List methodListPOST(Object data, String url, Class clazz) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+@Override
+public Object methodDELETE(String url, Class clazz) {
+    try {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        URI uri = new URI(url);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<Object> response = restTemplate.exchange(uri, HttpMethod.DELETE, entity, clazz);
+        
+        if (response != null && response.getStatusCode().is2xxSuccessful()) {
+            return response.getBody();
+        } else {
+            System.err.println("Error: " + response.getStatusCode() + " " + response.getBody());
+            return null;
+        }
+    } catch (HttpMessageNotReadableException e) {
+        System.err.println("Error parsing JSON response: " + e.getMessage());
+    } catch (RestClientException e) {
+        System.err.println("Client error: " + e.getMessage());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return null;
+}
 
 }
